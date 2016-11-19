@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SHARPZIPLIB</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>Pngcs.xml</DocumentationFile>
@@ -63,9 +63,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib" Condition=" '$(TargetFrameworkVersion)' == 'v2.0' ">
-      <HintPath>..\..\..\..\..\..\..\temp\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -147,6 +144,9 @@
     <Compile Include="Zlib\AZlibOutputStream.cs" />
     <Compile Include="Zlib\ZlibOutputStreamMs.cs" />
     <Compile Include="Zlib\ZlibStreamFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Zlib2\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
