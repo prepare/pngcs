@@ -8,6 +8,7 @@ namespace Hjg.Pngcs.Zlib {
 
     public class ZlibStreamFactory {        
         public static AZlibInputStream createZlibInputStream(Stream st, bool leaveOpen) {
+            return new ZlibInputStreamMs(st, leaveOpen);
 #if NET45
                 return new ZlibInputStreamMs(st,leaveOpen);
 #endif
@@ -21,6 +22,7 @@ namespace Hjg.Pngcs.Zlib {
         }
 
         public static AZlibOutputStream createZlibOutputStream(Stream st, int compressLevel, EDeflateCompressStrategy strat, bool leaveOpen) {
+            return new ZlibOutputStreamMs(st, compressLevel, strat, leaveOpen);
 #if NET45
                 return new ZlibOutputStreamMs( st, compressLevel,strat, leaveOpen);
 #endif
