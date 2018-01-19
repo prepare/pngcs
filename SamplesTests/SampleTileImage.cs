@@ -1,5 +1,4 @@
-namespace SampleTests
-{
+namespace SampleTests {
 
     using System;
     using System.Collections;
@@ -11,21 +10,19 @@ namespace SampleTests
     using Hjg.Pngcs.Chunks;
 
 
-    public class SampleTileImage
-    {
+    public class SampleTileImage {
 
-        public static void tile(String orig, String dest, int factor)
-        {
+        public static void tile(String orig, String dest,int factor) {
             if (orig.Equals(dest)) throw new PngjException("input and output file cannot coincide");
-            if (factor < 2 || factor > 100) throw new PngjException("bad factor ");
+            if (factor<2 || factor>100) throw new PngjException("bad factor ");
             PngReader pngr = FileHelper.CreatePngReader(orig);
             var x = pngr.ImgInfo;
+            
             PngWriter pngw = FileHelper.CreatePngWriter(dest, pngr.ImgInfo, true);
             pngr.SetUnpackedMode(true); // we dont want to do the unpacking ourselves, we want a sample per array element
             pngw.SetUseUnPackedMode(true); // not really necesary here, as we pass the ImageLine, but anyway...
             pngw.CopyChunksFirst(pngr, ChunkCopyBehaviour.COPY_ALL_SAFE);
-            for (int row = 0; row < pngr.ImgInfo.Rows; row++)
-            {
+            for (int row = 0; row < pngr.ImgInfo.Rows; row++) {
                 ImageLine l1 = pngr.ReadRowInt(row);
                 mirrorLineInt(pngr.ImgInfo, l1.Scanline);
                 pngw.WriteRow(l1, row);
@@ -34,13 +31,10 @@ namespace SampleTests
             pngw.End();
         }
 
-        private static void mirrorLineInt(ImageInfo imgInfo, int[] line)
-        { // unpacked line
+        private static void mirrorLineInt(ImageInfo imgInfo, int[] line) { // unpacked line
             int channels = imgInfo.Channels;
-            for (int c1 = 0, c2 = imgInfo.Cols - 1; c1 < c2; c1++, c2--)
-            { // swap pixels (not samples!)
-                for (int i = 0; i < channels; i++)
-                {
+            for (int c1 = 0, c2 = imgInfo.Cols - 1; c1 < c2; c1++, c2--) { // swap pixels (not samples!)
+                for (int i = 0; i < channels; i++) {
                     int aux = line[c1 * channels + i];
                     line[c1 * channels + i] = line[c2 * channels + i];
                     line[c2 * channels + i] = aux;
@@ -50,6 +44,6 @@ namespace SampleTests
 
 
 
-
+        
     }
 }

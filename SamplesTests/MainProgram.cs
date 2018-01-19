@@ -10,14 +10,13 @@ namespace SamplesTests
 
     class MainProgram
     {
-
+        
         static void Main(string[] args)
         {
 
 
-            PngReader png = FileHelper.CreatePngReader("d:/WImageTest/test1.png");
-            Console.Out.WriteLine(png);
 
+            Test1();
 
             long t0 = Environment.TickCount;
             //testX();
@@ -48,7 +47,45 @@ namespace SamplesTests
             TestTextChunks.test();
         }
 
+        static void Test1()
+        {
+            using (System.IO.FileStream fs = new System.IO.FileStream("d:\\WImageTest\\a01_4_1.png", System.IO.FileMode.Open))
+            {
+                PngReader reader1 = new PngReader(fs);
+                var imgInfo = reader1.ImgInfo;
+                int j = imgInfo.Rows;
+                using (System.Drawing.Bitmap newBMP = new System.Drawing.Bitmap(imgInfo.Cols, imgInfo.Rows, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+                {
+                    System.Drawing.Imaging.BitmapData data = newBMP.LockBits(
+                        new System.Drawing.Rectangle(0, 0, imgInfo.Cols, imgInfo.Rows),
+                         System.Drawing.Imaging.ImageLockMode.ReadWrite,
+                          newBMP.PixelFormat);
 
+                    byte[] buffer = new byte[imgInfo.Cols * 4 * imgInfo.Rows];
+
+                    int rowLen = data.Stride;
+                    int targetpos = 0;
+                    for (int i = 0; i < j; ++i)
+                    {
+                        ImageLine imgline = reader1.ReadRowByte(i);
+
+                        byte[] scanlineBytes = imgline.ScanlineB;
+                        //copy
+                        System.Buffer.BlockCopy(
+                            scanlineBytes, 0,
+                            buffer, targetpos, scanlineBytes.Length);
+                        targetpos += rowLen;
+                    }
+                    System.Runtime.InteropServices.Marshal.Copy(
+                        buffer,
+                        0,
+                        data.Scan0, buffer.Length);
+
+                    newBMP.UnlockBits(data);
+                    newBMP.Save("d:\\WImageTest\\pngcs1.png");
+                }
+            }
+        }
         static void sampleShowChunks(string[] args)
         {
             if (args.Length < 1)

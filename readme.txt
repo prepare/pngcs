@@ -35,16 +35,7 @@ Advantages:
      Works with old .net versions (2.0 and above)
      Slightly better compression
 
-
-------------------------------------------------------------------------
-
-The ICSharpCode.SharpZipLib.dll assembly, provided with this library,
-must be referenced together with pngcs.dll by client projects.
-Because SharpZipLib is released  under the GPL license with an exception
-that allows to link it with independent modules, PNGCS relies on that
-exception and is released under the Apache license. See LICENSE.txt
-
------------------------------------------------------------------------------
+ 
 
 History: 
 
